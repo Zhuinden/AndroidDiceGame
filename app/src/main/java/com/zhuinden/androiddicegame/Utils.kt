@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Handler
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 
 inline fun View.onClick(crossinline handler: (View) -> Unit) {
     setOnClickListener { view ->

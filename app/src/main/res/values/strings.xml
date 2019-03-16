@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">AndroidDiceGame</string>
+    <string name="game_button_action_roll">Roll!</string>
+    <string name="game_button_action_reset">Reset</string>
+    <string name="game_title_text_scores">Scores</string>
+    <string name="game_title_text_rolls">Rolls</string>
+    <string name="game_label_text_player_1">Player 1</string>
+    <string name="game_label_text_player_2">Player 2</string>
+    <string name="game_state_player_1_won">Player 1 won!</string>
+    <string name="game_state_player_2_won">Player 2 won!</string>
 </resources>
