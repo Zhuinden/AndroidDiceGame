@@ -1,11 +1,12 @@
 package com.zhuinden.androiddicegame
 
 import com.jakewharton.rxrelay2.BehaviorRelay
+import com.zhuinden.androiddicegame.utils.exposed
 import com.zhuinden.simplestack.Bundleable
 import com.zhuinden.statebundle.StateBundle
 import io.reactivex.Observable
 
-// i am the model
+// i am the model!!
 class DiceGame(
     private val delayProvider: DelayProvider,
     private val diceRollProvider: DiceRollProvider
@@ -24,29 +25,25 @@ class DiceGame(
         fun rollD6(): Int
     }
 
-    private var roll1: Int = 0
-        set(value) {
-            field = value
-            _roll1.accept(value)
-        }
+    private var _roll1: BehaviorRelay<Int> = BehaviorRelay.create()
+    fun roll1(): Observable<Int> = _roll1
 
-    private var roll2: Int = 0
-        set(value) {
-            field = value
-            _roll2.accept(value)
-        }
+    private var _roll2: BehaviorRelay<Int> = BehaviorRelay.create()
+    fun roll2(): Observable<Int> = _roll2
 
-    private var score1: Int = 0
-        set(value) {
-            field = value
-            _score1.accept(value)
-        }
+    private var _score1: BehaviorRelay<Int> = BehaviorRelay.create()
+    fun score1(): Observable<Int> = _score1
 
-    private var score2: Int = 0
-        set(value) {
-            field = value
-            _score2.accept(value)
-        }
+    private var _score2: BehaviorRelay<Int> = BehaviorRelay.create()
+    fun score2(): Observable<Int> = _score2
+
+    private var _winner: BehaviorRelay<Winner> = BehaviorRelay.createDefault(Winner.NONE)
+    fun winner(): Observable<Winner> = _winner
+
+    private var roll1 by exposed(0, _roll1)
+    private var roll2 by exposed(0, _roll2)
+    private var score1 by exposed(0, _score1)
+    private var score2 by exposed(0, _score2)
 
     private var shouldEvaluate = false
         set(value) {
@@ -73,27 +70,11 @@ class DiceGame(
             )
         }
 
-    private var _roll1: BehaviorRelay<Int> = BehaviorRelay.createDefault(0)
-    fun roll1(): Observable<Int> = _roll1
-
-    private var _roll2: BehaviorRelay<Int> = BehaviorRelay.createDefault(0)
-    fun roll2(): Observable<Int> = _roll2
-
-    private var _score1: BehaviorRelay<Int> = BehaviorRelay.createDefault(0)
-    fun score1(): Observable<Int> = _score1
-
-    private var _score2: BehaviorRelay<Int> = BehaviorRelay.createDefault(0)
-    fun score2(): Observable<Int> = _score2
-
-    private var _winner: BehaviorRelay<Winner> = BehaviorRelay.createDefault(Winner.NONE)
-    fun winner(): Observable<Winner> = _winner
-
     enum class Winner {
         NONE,
         PLAYER_1,
         PLAYER_2
     }
-
 
     private fun executeGameEvent() {
         if (shouldEvaluate) {

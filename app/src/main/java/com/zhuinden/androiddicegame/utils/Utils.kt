@@ -5,9 +5,13 @@ import android.os.Handler
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
+import com.jakewharton.rxrelay2.BehaviorRelay
 import com.zhuinden.simplestack.Backstack
+import com.zhuinden.simplestack.BackstackManager
 import com.zhuinden.simplestack.ScopedServices
 import com.zhuinden.simplestack.navigator.Navigator
+import kotlin.properties.ObservableProperty
+import kotlin.reflect.KProperty
 
 fun <T> T.safe() = Unit
 
@@ -46,6 +50,8 @@ inline fun <reified T> ScopedServices.ServiceBinder.addService(service: T) {
 
 inline fun <reified T> View.lookup(): T = context.lookup()
 
+inline fun <reified T> BackstackManager.lookup(): T = lookupService(T::class.java.name)
+
 // navigation (though I'm not using it atm)
 val Context.backstack: Backstack
     get() = Navigator.getBackstack(this)
@@ -81,4 +87,13 @@ fun Context.showToast(message: String, length: Int = Toast.LENGTH_SHORT) {
 
 fun Handler.postDelayed(delay: Long, action: () -> Unit) {
     postDelayed(action, delay)
+}
+
+////
+fun <T> exposed(initialValue: T, relay: BehaviorRelay<T>) = object : ObservableProperty<T>(initialValue) {
+    override fun afterChange(property: KProperty<*>, oldValue: T, newValue: T) {
+        if (newValue != null) {
+            relay.accept(newValue)
+        }
+    }
 }
