@@ -9,7 +9,7 @@ import com.zhuinden.simplestack.StateChanger
 import com.zhuinden.simplestack.navigator.Navigator
 import com.zhuinden.simplestack.navigator.changehandlers.FadeViewChangeHandler
 
-class BindingEnabledViewStateChanger(
+class ViewStateChanger(
     private val activity: Activity,
     private val container: ViewGroup
 ) : StateChanger {
@@ -26,8 +26,6 @@ class BindingEnabledViewStateChanger(
             .inflate(newKey.layout(), container, false)
         Navigator.persistViewToState(previousView)
         Navigator.restoreViewFromState(newView)
-
-        newKey.bindView(Navigator.getManager(activity), newView)
 
         if (previousKey == null || previousView == null) {
             container.removeView(previousView)

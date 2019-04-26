@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.zhuinden.androiddicegame.CounterKey
 import com.zhuinden.androiddicegame.R
-import com.zhuinden.androiddicegame.utils.BindingEnabledViewStateChanger
 import com.zhuinden.androiddicegame.utils.ServiceConfiguration
+import com.zhuinden.androiddicegame.utils.ViewStateChanger
 import com.zhuinden.simplestack.History
 import com.zhuinden.simplestack.navigator.Navigator
 import kotlinx.android.synthetic.main.activity_main.*
@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
         Navigator.configure()
             .setScopedServices(ServiceConfiguration())
-            .setStateChanger(BindingEnabledViewStateChanger(this, containerRoot))
+            .setStateChanger(ViewStateChanger(this, containerRoot))
             .install(this, containerRoot, History.of(CounterKey()))
     }
 }
