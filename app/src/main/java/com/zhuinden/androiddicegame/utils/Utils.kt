@@ -7,8 +7,7 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.zhuinden.simplestack.Backstack
-import com.zhuinden.simplestack.BackstackManager
-import com.zhuinden.simplestack.ScopedServices
+import com.zhuinden.simplestack.ServiceBinder
 import com.zhuinden.simplestack.navigator.Navigator
 import kotlin.properties.ObservableProperty
 import kotlin.reflect.KProperty
@@ -44,13 +43,18 @@ inline fun View.showIf(predicate: (View) -> Boolean) {
 // services
 inline fun <reified T> Context.lookup(): T = Navigator.lookupService(this, T::class.java.name)
 
-inline fun <reified T> ScopedServices.ServiceBinder.addService(service: T) {
-    add(T::class.java.name, service as Any)
+inline fun <reified T> ServiceBinder.add(service: T) {
+    addService(T::class.java.name, service as Any)
 }
+
+inline fun <reified T> ServiceBinder.rebind(service: T) {
+    addAlias(T::class.java.name, service as Any)
+}
+
 
 inline fun <reified T> View.lookup(): T = context.lookup()
 
-inline fun <reified T> BackstackManager.lookup(): T = lookupService(T::class.java.name)
+inline fun <reified T> Backstack.lookup(): T = lookupService(T::class.java.name)
 
 // navigation (though I'm not using it atm)
 val Context.backstack: Backstack

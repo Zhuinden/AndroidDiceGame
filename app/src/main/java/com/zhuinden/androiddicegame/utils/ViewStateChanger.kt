@@ -14,14 +14,14 @@ class ViewStateChanger(
     private val container: ViewGroup
 ) : StateChanger {
     override fun handleStateChange(stateChange: StateChange, completionCallback: StateChanger.Callback) {
-        if (stateChange.isTopNewStateEqualToPrevious) {
+        if (stateChange.isTopNewKeyEqualToPrevious) {
             completionCallback.stateChangeComplete()
             return
         }
 
-        val previousKey = stateChange.topPreviousState<ViewKey>()
+        val previousKey = stateChange.topPreviousKey<ViewKey>()
         val previousView: View? = container.getChildAt(0)
-        val newKey = stateChange.topNewState<ViewKey>()
+        val newKey = stateChange.topNewKey<ViewKey>()
         val newView = LayoutInflater.from(stateChange.createContext(activity, newKey))
             .inflate(newKey.layout(), container, false)
         Navigator.persistViewToState(previousView)

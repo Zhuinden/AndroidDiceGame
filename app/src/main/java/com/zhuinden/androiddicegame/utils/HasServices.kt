@@ -1,8 +1,8 @@
 package com.zhuinden.androiddicegame.utils
 
 import com.zhuinden.simplestack.ScopeKey
-import com.zhuinden.simplestack.ScopedServices
+import com.zhuinden.simplestack.ServiceBinder
 
 interface HasServices : ScopeKey {
-    fun bindServices(serviceBinder: ScopedServices.ServiceBinder)
+    fun bindServices(serviceBinder: ServiceBinder)
 }
