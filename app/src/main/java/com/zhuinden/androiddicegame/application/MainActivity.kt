@@ -21,4 +21,10 @@ class MainActivity : AppCompatActivity() {
             .setStateChanger(ViewStateChanger(this, containerRoot))
             .install(this, containerRoot, History.of(CounterKey()))
     }
+
+    override fun onBackPressed() {
+        if (!Navigator.onBackPressed(this)) {
+            super.onBackPressed()
+        }
+    }
 }
